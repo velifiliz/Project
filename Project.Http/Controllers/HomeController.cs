@@ -11,17 +11,11 @@ namespace Project.Http.Controllers
     {
 
         Domain.PersonalDataService DataService = new Domain.PersonalDataService();
-         
-
-
+          
         [HttpGet , AllowAnonymous]
         public HttpResponseMessage GetPersonelDataList()
         {
             return Request.CreateResponse(HttpStatusCode.OK,DataService.PersonalGetDataList());
-        }
-
-
-
-
+        } 
     }
 }
