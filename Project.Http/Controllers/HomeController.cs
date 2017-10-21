@@ -17,7 +17,7 @@ namespace Project.Http.Controllers
         [HttpGet , AllowAnonymous]
         public HttpResponseMessage GetPersonelDataList()
         {
-            return Request.CreateResponse(HttpStatusCode.OK,DataService.PersonalGetDataList().Select(x=> x.Lastname));
+            return Request.CreateResponse(HttpStatusCode.OK,DataService.PersonalGetDataList());
         }
 
 
