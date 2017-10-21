@@ -9,10 +9,12 @@ namespace Project.Http
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
+            // Web API configuration and services 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+            config.Formatters.Add(config.Formatters.JsonFormatter);
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

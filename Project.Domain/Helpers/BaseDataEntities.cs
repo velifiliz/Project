@@ -6,8 +6,6 @@ namespace Project.Domain
     public abstract class BaseDataEntities
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity),Column("Id")]
-        public int Id { get; set; }
-
-        public int MyProperty { get; set; }
+        public int Id { get; set; } 
     }
 }
