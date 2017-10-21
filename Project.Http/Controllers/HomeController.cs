@@ -1,4 +1,5 @@
 ﻿using Project.Http.Helpers;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -16,7 +17,7 @@ namespace Project.Http.Controllers
         [HttpGet , AllowAnonymous]
         public HttpResponseMessage GetPersonelDataList()
         {
-            return Request.CreateResponse(HttpStatusCode.OK,DataService.PersonalGetDataList());
+            return Request.CreateResponse(HttpStatusCode.OK,DataService.PersonalGetDataList().Select(x=> x.Lastname));
         }
 
 
