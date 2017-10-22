@@ -14,6 +14,7 @@ namespace Project.Http.Auth
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+
             if (context.UserName == "veli" && context.Password == "12345")
             {
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);

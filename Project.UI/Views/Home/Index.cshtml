@@ -9,27 +9,26 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-    <script src="~/wwwroot/jquery-3.2.1.min.js"></script> 
+    <script src="~/wwwroot/jquery-3.2.1.min.js"></script>
 
     <script>
         $(function () {
- 
 
             $("#btnClick").click(function () {
-
                 var token = $.parseJSON(localStorage.getItem("token"));
-
                 if (token == null) {
-                    alert("Giriş Yapılmamış");
+
+                    alert("Giriş Yapmamışsınız");
                     return;
                 }
-
-                var accessToken = token.access_token;
+                else {
+                    var accessToken = token.access_token
+                }
 
                 $.ajax({
                     url: "http://localhost:59227/http/GetPersonelDataList",
                     type: "GET",
-                    crossDomain:true,
+                    crossDomain: true,
                     dataType: "json",
                     headers: { "accept": "application/json", "content-type": "application/json", "authorization": "Bearer " + accessToken },
                     success: function (result) {
@@ -41,19 +40,24 @@
                 });
             });
 
+
+
             $("#btnLogin").click(function () {
 
                 var username = $("#txtUsername").val();
                 var password = $("#txtPassword").val();
+
                 $.ajax({
                     url: "http://localhost:59227/token",
                     type: "POST",
                     crossDomain: true,
-                    data: { "username": username, "password": password , "grant_type" : "password" },
+                    data: { "username": username, "password": password, "grant_type": "password" },
                     dataType: "json",
                     success: function (result) {
+
                         localStorage.setItem("token", JSON.stringify(result));
-                        $("#lblToken").text(JSON.stringify(result));
+
+                        $("#lblResult").text(JSON.stringify(result));
                     },
                     error: function (xhr, status, error) {
                         alert("err - " + status + " - " + error);
@@ -62,33 +66,33 @@
 
             });
 
+
             $("#btnLogout").click(function () {
 
 
                 if (localStorage.getItem("token") != null) {
-
                     localStorage.removeItem("token");
-                    alert("Çıkış Yapıldı");
-                    $("#lblToken").text("");
+                    $("#lblResult").text("");
+                } else {
+                    alert("Zaten Giriş Yapmamışsınız !!!");
                 }
 
-
             });
-
-
         });
     </script>
 </head>
 <body>
-    <button id="btnClick">Get Service</button> 
-    <br />
-    <input type="text" id="txtUsername" />
-    <br />
-    <input type="text" id="txtPassword" />
-    <br />
-    <button id="btnLogin">Giriş Yap</button> | <button id="btnLogout">Çıkış Yap</button>
+    <button id="btnClick">Get Service</button>
 
     <br />
-    <label id="lblToken" ></label>
+    <input type="text" id="txtUsername" placeholder="Kullanıcı Adı" />
+    <br />
+    <input type="password" id="txtPassword" placeholder="Şifre" />
+    <br />
+    <button id="btnLogin"> Giriş Yap</button> | <button id="btnLogout"> Çıkış Yap</button>
+
+    <br />
+    <label id="lblResult"></label>
+
 </body>
 </html>
