@@ -7,15 +7,17 @@ using System.Web.Http;
 namespace Project.Http.Controllers
 {
     [Route("http/{action}")]
+    [Authorize]
     public class HomeController : BaseController
     {
-
         Domain.PersonalDataService DataService = new Domain.PersonalDataService();
-          
-        [HttpGet , AllowAnonymous]
+
+        [HttpGet]
+ 
         public HttpResponseMessage GetPersonelDataList()
         {
             return Request.CreateResponse(HttpStatusCode.OK,DataService.PersonalGetDataList());
-        } 
+        }
+         
     }
 }

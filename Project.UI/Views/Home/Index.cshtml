@@ -13,12 +13,25 @@
 
     <script>
         $(function () {
+ 
+
             $("#btnClick").click(function () {
+
+                var token = $.parseJSON(localStorage.getItem("token"));
+
+                if (token == null) {
+                    alert("Giriş Yapılmamış");
+                    return;
+                }
+
+                var accessToken = token.access_token;
+
                 $.ajax({
                     url: "http://localhost:59227/http/GetPersonelDataList",
                     type: "GET",
                     crossDomain:true,
-                    dataType: "json", 
+                    dataType: "json",
+                    headers: { "accept": "application/json", "content-type": "application/json", "authorization": "Bearer " + accessToken },
                     success: function (result) {
                         alert(JSON.stringify(result));
                     },
@@ -27,10 +40,55 @@
                     }
                 });
             });
+
+            $("#btnLogin").click(function () {
+
+                var username = $("#txtUsername").val();
+                var password = $("#txtPassword").val();
+                $.ajax({
+                    url: "http://localhost:59227/token",
+                    type: "POST",
+                    crossDomain: true,
+                    data: { "username": username, "password": password , "grant_type" : "password" },
+                    dataType: "json",
+                    success: function (result) {
+                        localStorage.setItem("token", JSON.stringify(result));
+                        $("#lblToken").text(JSON.stringify(result));
+                    },
+                    error: function (xhr, status, error) {
+                        alert("err - " + status + " - " + error);
+                    }
+                });
+
+            });
+
+            $("#btnLogout").click(function () {
+
+
+                if (localStorage.getItem("token") != null) {
+
+                    localStorage.removeItem("token");
+                    alert("Çıkış Yapıldı");
+                    $("#lblToken").text("");
+                }
+
+
+            });
+
+
         });
     </script>
 </head>
 <body>
-    <button id="btnClick">Get Service</button>
+    <button id="btnClick">Get Service</button> 
+    <br />
+    <input type="text" id="txtUsername" />
+    <br />
+    <input type="text" id="txtPassword" />
+    <br />
+    <button id="btnLogin">Giriş Yap</button> | <button id="btnLogout">Çıkış Yap</button>
+
+    <br />
+    <label id="lblToken" ></label>
 </body>
 </html>
